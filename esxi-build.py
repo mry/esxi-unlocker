@@ -35,12 +35,12 @@ if sys.version_info < (2, 7):
 # TODO: Change for a new release
 VERSION = '3.0.1'
 FILEVER = '301'
-FILENAME = 'esxi-unlocker-301.tgz'
+FILENAME = 'esxi-unlocker-' + FILEVER + '.tgz'
 
 TIMESTAMP = '{:%Y%m%d%H%M.%S}'.format(datetime.datetime.now())
 TOUCH = 'touch -t ' + TIMESTAMP
-GTARUNLOCKER = '/usr/local/bin/gtar czvf unlocker.tgz etc'
-GTARDISTRIB = '/usr/local/bin/gtar czvf ' + FILENAME + \
+GTARUNLOCKER = 'tar czvf unlocker.tgz etc'
+GTARDISTRIB = 'tar czvf ' + FILENAME + \
               ' unlocker.tgz esxi-install.sh esxi-uninstall.sh esxi-smctest.sh readme.txt'
 
 
@@ -68,8 +68,9 @@ def main():
 
 
 if __name__ == '__main__':
-    if sys.platform == 'darwin':
-        print('ESXi-Build for macOS')
-        main()
-    else:
-        print('ESXi-Build only supported on macOS')
+    if sys.platform != 'darwin' and not sys.platform.startswith("linux"):
+        print('ESXi-Build only supported on macOS or Linux')
+        sys.exit(1)
+
+    print('ESXi-Build for macOS')
+    main()
